@@ -50,6 +50,7 @@ export default class App extends Component<Props, State> {
     super(props);
     this.setMode = this.setMode.bind(this);
     this.setSelected = this.setSelected.bind(this);
+    this.recieveSnapshot = this.recieveSnapshot.bind(this);
     this.ref = firestore().collection("DATA")
 
     this.state = {
@@ -63,14 +64,16 @@ export default class App extends Component<Props, State> {
     }
   }
 
-  componentDidMount() {
-  this.ref.get().then((querySnapshot) => {
+  recieveSnapshot(querySnapshot) {
   const fetched = []
   querySnapshot.forEach((doc) => fetched.push(doc.data()));
 
   this.setState({...this.state, markers: fetched})
-  
-});
+  }
+
+  componentDidMount() {
+    this.ref.onSnapshot(this.recieveSnapshot)
+    this.ref.get().then(this.recieveSnapshot);
 
         Geolocation.getCurrentPosition(
             (position) => {
