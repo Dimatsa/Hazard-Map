@@ -3,12 +3,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-export default BottomBar = () => 
+export default BottomBar = (props) => 
 (
 <View style={style.container}><Button
+onPress={()=>props.setMode(!props.mode)}
   buttonStyle={style.button}
   titleStyle={style.title}
-  title="Solid Button"
+  title={props.mode ? "Add Hazard" : "Cancel"}
 /></View>)
 
 const style = StyleSheet.create({

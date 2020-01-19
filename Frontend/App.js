@@ -40,17 +40,21 @@ type State = {
       longitude: number;
       latitudeDelta: number;
       longitudeDelta: number;
+      mode: boolean;
 }
 
 export default class App extends Component<Props, State> {
   constructor(props) {
     super(props);
+    this.setMode = this.setMode.bind(this);
+
 
     this.state = {
       latitude: 37.78825,
       longitude: -122.4324,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
+      mode: true,
     }
   }
 
@@ -69,6 +73,8 @@ export default class App extends Component<Props, State> {
     
   }
 
+  setMode(mode) {console.log(mode); this.setState({...this.state, mode})}
+
   render() {
     return (
       <View style={styles.overContainer}>
@@ -76,7 +82,7 @@ export default class App extends Component<Props, State> {
         style={styles.container}
         region={this.state} />
         <View style={styles.bottom}>
-          <BottomBar/>
+          <BottomBar mode={this.state.mode} setMode={this.setMode}/>
         </View>
         </View>
       
