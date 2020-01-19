@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "814234968064",
+    "firebase_url": "https://hazard-map-265521.firebaseio.com",
+    "project_id": "hazard-map-265521",
+    "storage_bucket": "hazard-map-265521.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814234968064:android:ee1210482792c17f0938e5",
+        "android_client_info": {
+          "package_name": "starterhacks.hazardmap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "814234968064-75vaf5sl73cbicci2jj963fovsshfa6v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoUN2SEXR_m6VeadBxXcnjo7HO83fLdd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "814234968064-75vaf5sl73cbicci2jj963fovsshfa6v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
