@@ -11,6 +11,14 @@ import { Platform, StyleSheet, Text, View } from "react-native";
 import MapView from "react-native-maps";
 import firebase from "@react-native-firebase/app";
 
+var firebase = require("firebase");
+
+var config = {
+    databaseURL: "https://hazard-map-265521.firebaseio.com/DATA/DEVELOP",
+    projectId: "hazard-map-265521",
+};
+firebase.initializeApp(config);
+
 // TODO(you): import any additional firebase services that you require for your app, e.g for auth:
 //    1) install the npm package: `yarn add @react-native-firebase/auth@alpha` - you do not need to
 //       run linking commands - this happens automatically at build time now
@@ -30,8 +38,6 @@ const firebaseCredentials = Platform.select({
 });
 
 type Props = {};
-
-const myFunc = (x) => x*x;
 
 export default class App extends Component<Props> {
   render() {
