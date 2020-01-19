@@ -40,12 +40,17 @@ type State = {
       markers: array;
 }
 
+
+const mapping = {"other": "Other", "geese": "Goose", "fallen-trees": "Fallen Tree", "potholes": "Pothole", "ice": "Ice"}
+
 export default class App extends Component<Props, State> {
+  
+
   constructor(props) {
     super(props);
     this.setMode = this.setMode.bind(this);
     this.setSelected = this.setSelected.bind(this);
-
+    this.ref = firestore().collection("DATA")
 
     this.state = {
       latitude: 37.78825,
@@ -59,7 +64,7 @@ export default class App extends Component<Props, State> {
   }
 
   componentDidMount() {
-const data = firestore().collection("DATA").get().then((querySnapshot) => {
+  this.ref.get().then((querySnapshot) => {
   const fetched = []
   querySnapshot.forEach((doc) => fetched.push(doc.data()));
 
@@ -88,10 +93,20 @@ const data = firestore().collection("DATA").get().then((querySnapshot) => {
     return (
       <View style={styles.overContainer}>
          <MapView
-         onPress={(event) => {
+         onPress={async (event) => {
            if(this.state.selected) {
              // Send hazard here
              console.log(this.state.selected, event.nativeEvent.coordinate)
+
+             await this.ref.add({
+      hazardType: mapping[this.state.selected],
+      location: {
+        _longitude: event.nativeEvent.coordinate.longitude,
+        _latitude: event.nativeEvent.coordinate.latitude
+      },
+    });
+             
+
              this.setState({...this.state, mode: true, selected: null})
            }
          }}
