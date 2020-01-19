@@ -9,25 +9,17 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import MapView from "react-native-maps";
-import firebase from "@react-native-firebase/app";
 import Geolocation from 'react-native-geolocation-service';
 import BottomBar from './components/BottomBar';
 import MyLocationMapMarker from "./components/LocationMapMarker";
+import firestore from '@react-native-firebase/firestore';
 
-var firebase = require("firebase");
+import firebase from "@react-native-firebase/app"
 
-var config = {
-    databaseURL: "https://hazard-map-265521.firebaseio.com/DATA/DEVELOP",
-    projectId: "hazard-map-265521",
-};
-firebase.initializeApp(config);
-
-// TODO(you): import any additional firebase services that you require for your app, e.g for auth:
-//    1) install the npm package: `yarn add @react-native-firebase/auth@alpha` - you do not need to
-//       run linking commands - this happens automatically at build time now
-//    2) rebuild your app via `yarn run run:android` or `yarn run run:ios`
-//    3) import the package here in your JavaScript code: `import '@react-native-firebase/auth';`
-//    4) The Firebase Auth service is now available to use here: `firebase.auth().currentUser`
+const data = firestore().collection("DATA").get().then((querySnapshot) => {
+  const fetched = []
+  querySnapshot.forEach((doc) => fetched.push(doc.data()));
+});
 
 const instructions = Platform.select({
   ios: "Press Cmd+R to reload,\nCmd+D or shake for dev menu",
