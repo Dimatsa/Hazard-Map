@@ -11,19 +11,13 @@ import { Platform, StyleSheet, Text, View } from "react-native";
 import MapView from "react-native-maps";
 import Geolocation from 'react-native-geolocation-service';
 import BottomBar from './components/BottomBar';
+import DownloadedHazard from './components/DownloadedHazard'
 
 import PlacementHazard from './components/PlacementHazard';
-
-import MyLocationMapMarker from "./components/LocationMapMarker";
 import firestore from '@react-native-firebase/firestore';
 
 import firebase from "@react-native-firebase/app"
-
-const data = firestore().collection("DATA").get().then((querySnapshot) => {
-  const fetched = []
-  querySnapshot.forEach((doc) => fetched.push(doc.data()));
-});
-
+import { Marker } from 'react-native-maps';
 const instructions = Platform.select({
   ios: "Press Cmd+R to reload,\nCmd+D or shake for dev menu",
   android:
@@ -43,6 +37,7 @@ type State = {
       latitudeDelta: number;
       longitudeDelta: number;
       mode: boolean;
+      markers: array;
 }
 
 export default class App extends Component<Props, State> {
@@ -64,6 +59,14 @@ export default class App extends Component<Props, State> {
   }
 
   componentDidMount() {
+const data = firestore().collection("DATA").get().then((querySnapshot) => {
+  const fetched = []
+  querySnapshot.forEach((doc) => fetched.push(doc.data()));
+
+  this.setState({...this.state, markers: fetched})
+  
+});
+
         Geolocation.getCurrentPosition(
             (position) => {
               console.log(position)
@@ -93,13 +96,12 @@ export default class App extends Component<Props, State> {
            }
          }}
         style={styles.container}
-        region={this.state} />
+        region={this.state} >{this.state.markers.map((marker, idx) => (<DownloadedHazard {...marker} key={idx} />) )}</MapView>
         <PlacementHazard visible={!this.state.mode} setSelected={this.setSelected} image={require("./assets/ice.png")} name="ice"  left={2.5}/>
         <PlacementHazard visible={!this.state.mode} setSelected={this.setSelected} image={require("./assets/potholes.png")} name="potholes" left={22.5}/>
         <PlacementHazard visible={!this.state.mode} setSelected={this.setSelected} image={require("./assets/fallen-trees.png")} name="fallen-trees" left={42.5}/>
         <PlacementHazard visible={!this.state.mode} setSelected={this.setSelected} image={require("./assets/geese.png")} name="geese" left={62.5}/>
         <PlacementHazard visible={!this.state.mode} setSelected={this.setSelected} image={require("./assets/other.png")} name="other" left={82.5}/>
-
         <View style={styles.bottom}>
           <BottomBar mode={this.state.mode} setMode={this.setMode}/>
         </View>

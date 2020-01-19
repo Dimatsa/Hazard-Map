@@ -1,4 +1,5 @@
 import React from "react";
+import { Marker } from 'react-native-maps';
 
 const map = {
     "Ice": require("../assets/ice.png"),
@@ -9,5 +10,5 @@ const map = {
 }
 
 export default (props) => {
-    <Marker coordinate={props.coordinate} image={map[props.name]} />
+    return <Marker coordinate={{longitude: props.location._longitude, latitude: props.location._latitude}} image={map[props.hazardType]} />
 }
