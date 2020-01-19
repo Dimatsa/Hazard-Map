@@ -11,6 +11,7 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 
 import firebase from '@react-native-firebase/app';
 
+import BottomBar from './components/BottomBar';
 // TODO(you): import any additional firebase services that you require for your app, e.g for auth:
 //    1) install the npm package: `yarn add @react-native-firebase/auth@alpha` - you do not need to
 //       run linking commands - this happens automatically at build time now
@@ -42,6 +43,9 @@ export default class App extends Component<Props> {
             {`\nYou currently have no Firebase apps registered, this most likely means you've not downloaded your project credentials. Visit the link below to learn more. \n\n ${firebaseCredentials}`}
           </Text>
         )}
+        <View style={styles.bottom}>
+          <BottomBar/>
+        </View>
       </View>
     );
   }
@@ -50,7 +54,7 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
@@ -64,4 +68,9 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  bottom: {
+    width: "100%",
+    backgroundColor: "#ff0000",
+    justifyContent: "center"
+  }
 });
