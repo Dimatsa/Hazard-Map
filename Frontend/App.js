@@ -14,13 +14,7 @@ import firebase from "@react-native-firebase/app";
 import Geolocation from 'react-native-geolocation-service';
 
 import BottomBar from './components/BottomBar';
-import MyLocationMapMarker from "./components/LocationMapMarker";
-// TODO(you): import any additional firebase services that you require for your app, e.g for auth:
-//    1) install the npm package: `yarn add @react-native-firebase/auth@alpha` - you do not need to
-//       run linking commands - this happens automatically at build time now
-//    2) rebuild your app via `yarn run run:android` or `yarn run run:ios`
-//    3) import the package here in your JavaScript code: `import '@react-native-firebase/auth';`
-//    4) The Firebase Auth service is now available to use here: `firebase.auth().currentUser`
+import PlacementHazard from './components/PlacementHazard';
 
 const instructions = Platform.select({
   ios: "Press Cmd+R to reload,\nCmd+D or shake for dev menu",
@@ -47,6 +41,7 @@ export default class App extends Component<Props, State> {
   constructor(props) {
     super(props);
     this.setMode = this.setMode.bind(this);
+    this.setSelected = this.setSelected.bind(this);
 
 
     this.state = {
@@ -55,6 +50,7 @@ export default class App extends Component<Props, State> {
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
       mode: true,
+      selected: null
     }
   }
 
@@ -73,14 +69,28 @@ export default class App extends Component<Props, State> {
     
   }
 
-  setMode(mode) {console.log(mode); this.setState({...this.state, mode})}
+  setMode(mode) {this.setState({...this.state, mode})}
+  setSelected(selected) {this.setState({...this.state, selected})}
 
   render() {
     return (
       <View style={styles.overContainer}>
          <MapView
+         onPress={(event) => {
+           if(this.state.selected) {
+             // Send hazard here
+             console.log(this.state.selected, event.nativeEvent.coordinate)
+             this.setState({...this.state, mode: true, selected: null})
+           }
+         }}
         style={styles.container}
         region={this.state} />
+        <PlacementHazard visible={!this.state.mode} setSelected={this.setSelected} image={require("./assets/ice.png")} name="ice"  left={2.5}/>
+        <PlacementHazard visible={!this.state.mode} setSelected={this.setSelected} image={require("./assets/potholes.png")} name="potholes" left={22.5}/>
+        <PlacementHazard visible={!this.state.mode} setSelected={this.setSelected} image={require("./assets/fallen-trees.png")} name="fallen-trees" left={42.5}/>
+        <PlacementHazard visible={!this.state.mode} setSelected={this.setSelected} image={require("./assets/geese.png")} name="geese" left={62.5}/>
+        <PlacementHazard visible={!this.state.mode} setSelected={this.setSelected} image={require("./assets/other.png")} name="other" left={82.5}/>
+
         <View style={styles.bottom}>
           <BottomBar mode={this.state.mode} setMode={this.setMode}/>
         </View>
