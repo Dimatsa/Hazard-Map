@@ -50,7 +50,8 @@ export default class App extends Component<Props, State> {
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
       mode: true,
-      selected: null
+      selected: null,
+      markers: []
     }
   }
 
