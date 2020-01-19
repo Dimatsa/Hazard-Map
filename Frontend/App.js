@@ -11,7 +11,10 @@ import { Platform, StyleSheet, Text, View } from "react-native";
 import MapView from "react-native-maps";
 import firebase from "@react-native-firebase/app";
 
+import Geolocation from 'react-native-geolocation-service';
+
 import BottomBar from './components/BottomBar';
+import MyLocationMapMarker from "./components/LocationMapMarker";
 // TODO(you): import any additional firebase services that you require for your app, e.g for auth:
 //    1) install the npm package: `yarn add @react-native-firebase/auth@alpha` - you do not need to
 //       run linking commands - this happens automatically at build time now
@@ -32,20 +35,46 @@ const firebaseCredentials = Platform.select({
 
 type Props = {};
 
-const myFunc = (x) => x*x;
+type State = {
+        latitude: number;
+      longitude: number;
+      latitudeDelta: number;
+      longitudeDelta: number;
+}
 
-export default class App extends Component<Props> {
+export default class App extends Component<Props, State> {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      latitude: 37.78825,
+      longitude: -122.4324,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    }
+  }
+
+  componentDidMount() {
+        Geolocation.getCurrentPosition(
+            (position) => {
+              console.log(position)
+                this.setState(position.coords);
+            },
+            (error) => {
+                // See error code charts below.
+                console.log(error.code, error.message);
+            },
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+        );
+    
+  }
+
   render() {
     return (
       <View style={styles.overContainer}>
          <MapView
         style={styles.container}
-        region={{
-      latitude: 37.78825,
-      longitude: -122.4324,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-        }} /> 
+        region={this.state} />
         <View style={styles.bottom}>
           <BottomBar/>
         </View>
