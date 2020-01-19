@@ -10,11 +10,19 @@ import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import MapView from "react-native-maps";
 import firebase from "@react-native-firebase/app";
-
 import Geolocation from 'react-native-geolocation-service';
-
 import BottomBar from './components/BottomBar';
+
 import PlacementHazard from './components/PlacementHazard';
+
+import MyLocationMapMarker from "./components/LocationMapMarker";
+
+var firebase = require("firebase");
+
+var config = {
+    databaseURL: "https://hazard-map-265521.firebaseio.com/DATA/DEVELOP",
+    projectId: "hazard-map-265521",
+};
 
 const instructions = Platform.select({
   ios: "Press Cmd+R to reload,\nCmd+D or shake for dev menu",
